@@ -6,42 +6,48 @@
 /*   By: lpinheir <lpinheir@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/26 14:39:59 by lpinheir          #+#    #+#             */
-/*   Updated: 2022/02/02 21:27:59 by lpinheir         ###   ########.fr       */
+/*   Updated: 2022/02/03 14:05:54 by lpinheir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <unistd.h>
-#include <stdlib.h>
-#include <string.h>
-#include "libft.h"
 #include "pipex.h"
 
-int	shell(void);
 char	*find_command_path(char *command, char **envp);
+void	write_to_file(char **command, char *file, char **envp);
 
 int	main(int argc, char **argv, char **envp)
 {
-	char **command;
-	char *path;
-	
-	printf("argc = %d\n", argc);
-	if (argc != 2)
+	char	**first_command;
+
+	if (argc != 5)
 	{
-		printf("Too many commands. Usage: ./pipex command\n");
+		printf("ERROR. Usage: ./pipex infile \"cmd -f\" \"cmd -f\" outfile \n");
 		return (1);
 	}
-	command = ft_split(argv[1], ' ');
-	path = find_command_path(command[CMD], envp);
-	printf("cmd: %s\n", command[CMD]);
-	printf("flags: %s\n", command[FLAG]);
-	printf("path: %s\n", path);
-	execve(path, command, envp);
+	// printf("%s\n", argv[1]);
+	first_command = ft_split(argv[FIRSTCOMMANDWFLAGS], ' ');
+	write_to_file(first_command, argv[OUTFILE], envp);
 	return (0);
 }
 
+void	write_to_file(char **command, char *file_path, char **envp)
+{
+	char	*path;
+	int		file;
 
-char	*find_command_path(char *original_command, char **envp) 
+	path = find_command_path(command[0], envp);
+	file = open(file_path, O_WRONLY | O_CREAT, 0777);
+	if (path == NULL || file == -1)
+	{
+		perror("Error");
+		exit(EXIT_FAILURE);
+	}
+	dup2(file, STDOUT_FILENO);
+	close(file);
+	execve(path, command, envp);
+}
+
+char	*find_command_path(char *original_command, char **envp)
 {
 	char	**all_paths;
 	char	*correct_path;
@@ -62,16 +68,5 @@ char	*find_command_path(char *original_command, char **envp)
 			return (correct_path);
 		i++;
 	}
-	return NULL;
-}
-
-int	shell(void)
-{
-	char *args[] = {"/bin/ls", "-la", NULL};
-	char *env[] = { NULL };
-	
-	printf("Running shell");
-	execve("/bin/ls", args, env);
-	perror("execve");
-	exit(1);
+	return (NULL);
 }
