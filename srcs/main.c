@@ -24,7 +24,6 @@ int	main(int argc, char **argv, char **envp)
 		printf("ERROR. Usage: ./pipex infile \"cmd -f\" \"cmd -f\" outfile \n");
 		return (1);
 	}
-	// printf("%s\n", argv[1]);
 	first_command = ft_split(argv[FIRSTCOMMANDWFLAGS], ' ');
 	write_to_file(first_command, argv[OUTFILE], envp);
 	return (0);
