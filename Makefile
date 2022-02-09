@@ -6,7 +6,7 @@
 #    By: lpinheir <lpinheir@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/02/02 12:49:14 by lpinheir          #+#    #+#              #
-#    Updated: 2022/02/02 21:31:14 by lpinheir         ###   ########.fr        #
+#    Updated: 2022/02/09 09:37:22 by lpinheir         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,6 +27,7 @@ S_DIR = srcs
 O_DIR = objs
 
 SRCS = $(S_DIR)/main.c \
+	$(S_DIR)/utils.c \
 
 OBJS = $(subst $(S_DIR), $(O_DIR), $(SRCS:.c=.o))
 
