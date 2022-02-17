@@ -6,7 +6,7 @@
 /*   By: lpinheir <lpinheir@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 20:58:55 by lpinheir          #+#    #+#             */
-/*   Updated: 2022/02/17 11:28:42 by lpinheir         ###   ########.fr       */
+/*   Updated: 2022/02/17 11:47:30 by lpinheir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <fcntl.h>
+# include <sys/wait.h>
 
 /* FUNCTIONS */
 char	*find_command_path(char *command, char **envp);
