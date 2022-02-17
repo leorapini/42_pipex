@@ -6,7 +6,7 @@
 /*   By: lpinheir <lpinheir@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/26 14:39:59 by lpinheir          #+#    #+#             */
-/*   Updated: 2022/02/09 09:46:10 by lpinheir         ###   ########.fr       */
+/*   Updated: 2022/02/17 09:18:39 by lpinheir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,13 @@ int	main(int argc, char **argv, char **envp)
 	pid_t	child_pid;
 
 	if (argc != 5)
-		ft_error("ERROR. Usage: ./pipex infile \"cmd -f\" \"cmd -f\" outfile\n");
+		ft_error_message("ERROR. Usage: ./pipex infile \"cmd\" \"cmd\" outfile");
 	pipe_success = pipe(fd);
 	if (pipe_success == -1)
-		ft_error("ERROR. Pipe failure\n");
+		ft_error();
 	child_pid = fork();
 	if (child_pid == -1)
-		ft_error("ERROR. Pid failure\n");
+		ft_error();
 	first_command = ft_split(argv[FIRSTCOMMANDWFLAGS], ' ');
 	second_command = ft_split(argv[SECONDCOMMANDWFLAGS], ' ');
 	if (child_pid == 0)
@@ -43,13 +43,16 @@ void	read_file(char **command, char *file_path, char **envp, int *fd)
 	int		file;
 
 	path = find_command_path(command[0], envp);
+	if (path == NULL)
+		ft_error_command();
 	file = open(file_path, O_RDONLY, 0777);
-	if (path == NULL || file == -1)
-		ft_error("ERROR. Error in read_file()\n");
+	if (file == -1)
+		ft_error();
 	dup2(fd[1], STDOUT_FILENO);
 	dup2(file, STDIN_FILENO);
 	close(fd[0]);
-	execve(path, command, envp);
+	if (execve(path, command, envp) == -1)
+		ft_error();
 }
 
 void	write_to_file(char **command, char *file_path, char **envp, int *fd)
@@ -58,13 +61,16 @@ void	write_to_file(char **command, char *file_path, char **envp, int *fd)
 	int		file;
 
 	path = find_command_path(command[0], envp);
-	file = open(file_path, O_WRONLY | O_CREAT, 0777);
-	if (path == NULL || file == -1)
-		ft_error("ERROR. Error in write_to_file()\n");
+	if (path == NULL)
+		ft_error_command();
+	file = open(file_path, O_WRONLY | O_CREAT | O_TRUNC, 0777);
+	if (file == -1)
+		ft_error();
 	dup2(fd[0], STDIN_FILENO);
 	dup2(file, STDOUT_FILENO);
 	close(fd[1]);
-	execve(path, command, envp);
+	if (execve(path, command, envp) == -1)
+		ft_error();
 }
 
 char	*find_command_path(char *original_command, char **envp)
@@ -74,6 +80,9 @@ char	*find_command_path(char *original_command, char **envp)
 	char	*temp_path;
 	int		i;
 
+	if (char_in_str(original_command, '/') == 1)
+		if (access(original_command, F_OK), F_OK == 0)
+			return (original_command);
 	i = 0;
 	while (ft_strnstr(envp[i], "PATH", 4) == 0)
 		i++;
@@ -88,5 +97,5 @@ char	*find_command_path(char *original_command, char **envp)
 			return (correct_path);
 		i++;
 	}
-	return (NULL);
+	return NULL;
 }
