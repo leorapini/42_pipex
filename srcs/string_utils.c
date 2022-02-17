@@ -6,7 +6,7 @@
 /*   By: lpinheir <lpinheir@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/17 11:23:35 by lpinheir          #+#    #+#             */
-/*   Updated: 2022/02/17 11:28:32 by lpinheir         ###   ########.fr       */
+/*   Updated: 2022/02/17 12:02:24 by lpinheir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,6 @@ size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
 	*dst = 0;
 	return (srclen);
 }
-
-
 
 char	*ft_strjoin(char const *s1, char const *s2)
 {

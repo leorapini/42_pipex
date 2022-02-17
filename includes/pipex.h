@@ -6,7 +6,7 @@
 /*   By: lpinheir <lpinheir@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 20:58:55 by lpinheir          #+#    #+#             */
-/*   Updated: 2022/02/17 11:47:30 by lpinheir         ###   ########.fr       */
+/*   Updated: 2022/02/17 12:02:52 by lpinheir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,6 @@ char	*ft_strjoin(char const *s1, char const *s2);
 char	**ft_split(char const *s, char c);
 void	ft_error(int exit_code, char *message);
 char	*ft_strnstr(const char *haystack, const char *needle, size_t len);
-int	ft_strncmp(const char *s1, const char *s2, size_t n);
+int		ft_strncmp(const char *s1, const char *s2, size_t n);
 
 #endif
