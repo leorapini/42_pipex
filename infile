@@ -1,0 +1,12 @@
+total 176
+drwxr-xr-x  11 leo  staff    352 Feb 17 12:03 .
+drwxr-xr-x  14 leo  staff    448 Feb 17 12:03 ..
+drwxr-xr-x  12 leo  staff    384 Feb 17 12:03 .git
+-rw-r--r--   1 leo  staff    160 Feb 17 12:00 Makefile
+-rw-r--r--   1 leo  staff    176 Feb 17 12:00 README.md
+-rw-r--r--   1 leo  staff    108 Feb 17 12:00 fn_allowed
+-rw-r--r--   1 leo  staff     88 Feb 17 12:00 fn_used
+-rwxrwxrwx   1 leo  staff      0 Feb 17 12:03 infile
+drwxr-xr-x   2 leo  staff     64 Feb 17 12:03 output
+-rwxr-xr-x   1 leo  staff  50656 Feb 17 12:03 pipex
+-rwxr-xr-x   1 leo  staff  18826 Feb 17 12:00 test.sh

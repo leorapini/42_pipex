@@ -6,7 +6,7 @@
 /*   By: lpinheir <lpinheir@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/09 20:04:50 by lpinheir          #+#    #+#             */
-/*   Updated: 2022/02/17 11:41:00 by lpinheir         ###   ########.fr       */
+/*   Updated: 2022/02/17 19:47:48 by lpinheir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,14 +33,40 @@ static size_t	ft_words(char const *s, char c)
 	return (count);
 }
 
+static size_t	ft_quotes(char const *s)
+{
+	size_t	count;
+
+	count = 0;
+	while (*s != 0)
+	{
+		if (*s == '\'')
+			count++;
+		s++;
+	}
+	return (count / 2);
+}
+
 static char const	*ft_isc(char const *s, char c, size_t *len_str)
 {
+	int	flag;
+
+	flag = 0;
 	while (*s == c && *s != 0)
 		s++;
-	while (*s != c && *s != 0)
+	while (*s != c && *s != 0 && *s != '\'')
 	{
 		(*len_str)++;
 		s++;
+	}
+	if (*s == '\'')
+	{
+		s++;
+		while (*s != 0 && *s != '\'')
+		{
+			(*len_str)++;
+			s++;
+		}
 	}
 	return (s);
 }
@@ -51,10 +77,13 @@ char	**ft_split(char const *s, char c)
 	size_t	len_str;
 	size_t	j;
 	size_t	count;
+	size_t	quotes;
 
 	if (!s)
 		return (NULL);
 	count = ft_words(s, c);
+	quotes = ft_quotes(s);
+	count = count - quotes;
 	result = malloc(sizeof(char *) * count + 1);
 	if (!result)
 		return (NULL);
