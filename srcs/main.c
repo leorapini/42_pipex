@@ -6,7 +6,7 @@
 /*   By: lpinheir <lpinheir@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/26 14:39:59 by lpinheir          #+#    #+#             */
-/*   Updated: 2022/02/17 09:18:39 by lpinheir         ###   ########.fr       */
+/*   Updated: 2022/02/17 09:44:17 by lpinheir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,37 +39,37 @@ int	main(int argc, char **argv, char **envp)
 
 void	read_file(char **command, char *file_path, char **envp, int *fd)
 {
-	char	*path;
+	char	*cmd_path;
 	int		file;
 
-	path = find_command_path(command[0], envp);
-	if (path == NULL)
-		ft_error_command();
 	file = open(file_path, O_RDONLY, 0777);
 	if (file == -1)
 		ft_error();
 	dup2(fd[1], STDOUT_FILENO);
 	dup2(file, STDIN_FILENO);
 	close(fd[0]);
-	if (execve(path, command, envp) == -1)
+	cmd_path = find_command_path(command[0], envp);
+	if (cmd_path == NULL)
+		ft_error_command();
+	if (execve(cmd_path, command, envp) == -1)
 		ft_error();
 }
 
 void	write_to_file(char **command, char *file_path, char **envp, int *fd)
 {
-	char	*path;
+	char	*cmd_path;
 	int		file;
 
-	path = find_command_path(command[0], envp);
-	if (path == NULL)
-		ft_error_command();
 	file = open(file_path, O_WRONLY | O_CREAT | O_TRUNC, 0777);
 	if (file == -1)
 		ft_error();
 	dup2(fd[0], STDIN_FILENO);
 	dup2(file, STDOUT_FILENO);
 	close(fd[1]);
-	if (execve(path, command, envp) == -1)
+	cmd_path = find_command_path(command[0], envp);
+	if (cmd_path == NULL)
+		ft_error_command();
+	if (execve(cmd_path, command, envp) == -1)
 		ft_error();
 }
 
