@@ -6,17 +6,13 @@
 #    By: lpinheir <lpinheir@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/02/02 12:49:14 by lpinheir          #+#    #+#              #
-#    Updated: 2022/02/16 18:06:23 by lpinheir         ###   ########.fr        #
+#    Updated: 2022/02/17 11:40:26 by lpinheir         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = pipex
 
-INCLUDES = -I includes -I $(LIBFT_DIR)/includes/
-
-LIBFT_DIR = libft
-LIBFT = $(LIBFT_DIR)/libft.a
-LIBFT_FLAGS = -L $(LIBFT_DIR) -lft
+INCLUDES = -I includes
 
 CC = gcc
 CC_FLAGS = -Wall -Werror -Wextra
@@ -28,6 +24,8 @@ O_DIR = objs
 
 SRCS = $(S_DIR)/main.c \
 	$(S_DIR)/utils.c \
+	$(S_DIR)/string_utils.c \
+	$(S_DIR)/ft_split.c \
 
 OBJS = $(subst $(S_DIR), $(O_DIR), $(SRCS:.c=.o))
 
@@ -36,18 +34,13 @@ $(O_DIR)/%.o:	$(S_DIR)/%.c
 
 all: $(NAME)
 
-$(LIBFT):
-	make -C $(LIBFT_DIR)
-
-$(NAME):	$(OBJS) $(LIBFT)
-	$(CC) $(CC_FLAGS) -o $(NAME) $(OBJS) $(LIBFT_FLAGS)
+$(NAME):	$(OBJS)
+	$(CC) $(CC_FLAGS) -o $(NAME) $(OBJS)
 
 clean:
-	make clean -C $(LIBFT_DIR)
 	rm $(RM_FLAGS) $(OBJS)
 
 fclean:	clean
-	make fclean -C $(LIBFT_DIR)
 	rm $(NAME)
 
 re: fclean all
