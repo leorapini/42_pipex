@@ -6,21 +6,21 @@
 /*   By: lpinheir <lpinheir@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/09 09:30:47 by lpinheir          #+#    #+#             */
-/*   Updated: 2022/02/17 08:18:13 by lpinheir         ###   ########.fr       */
+/*   Updated: 2022/02/17 10:15:00 by lpinheir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
+void	ft_error(int exit_code, char *message)
+{
+	perror(message);
+	exit(exit_code);
+}
+
 void	ft_error_message(char *message)
 {
 	perror(message);
-	exit(EXIT_FAILURE);
-}
-
-void	ft_error(void)
-{
-	perror("Error");
 	exit(EXIT_FAILURE);
 }
 

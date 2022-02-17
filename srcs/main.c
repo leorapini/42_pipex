@@ -6,7 +6,7 @@
 /*   By: lpinheir <lpinheir@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/26 14:39:59 by lpinheir          #+#    #+#             */
-/*   Updated: 2022/02/17 09:44:17 by lpinheir         ###   ########.fr       */
+/*   Updated: 2022/02/17 10:59:27 by lpinheir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,56 +21,58 @@ int	main(int argc, char **argv, char **envp)
 	pid_t	child_pid;
 
 	if (argc != 5)
-		ft_error_message("ERROR. Usage: ./pipex infile \"cmd\" \"cmd\" outfile");
+		ft_error(1, "Error. Usage: ./pipex infile \"cmd\" \"cmd\" outfile");
 	pipe_success = pipe(fd);
 	if (pipe_success == -1)
-		ft_error();
+		ft_error(1, "Error");
 	child_pid = fork();
 	if (child_pid == -1)
-		ft_error();
+		ft_error(1, "Error");
 	first_command = ft_split(argv[FIRSTCOMMANDWFLAGS], ' ');
 	second_command = ft_split(argv[SECONDCOMMANDWFLAGS], ' ');
 	if (child_pid == 0)
-		read_file(first_command, argv[INFILE], envp, fd);
+		child_and_read_file(first_command, argv[INFILE], envp, fd);
 	waitpid(child_pid, NULL, 0);
-	write_to_file(second_command, argv[OUTFILE], envp, fd);
+	parent_and_write_to_file(second_command, argv[OUTFILE], envp, fd);
 	return (0);
 }
 
-void	read_file(char **command, char *file_path, char **envp, int *fd)
+void	child_and_read_file(char **command, char *file_path,
+	char **envp, int *fd)
 {
 	char	*cmd_path;
 	int		file;
 
 	file = open(file_path, O_RDONLY, 0777);
 	if (file == -1)
-		ft_error();
+		ft_error(1, "Error");
 	dup2(fd[1], STDOUT_FILENO);
 	dup2(file, STDIN_FILENO);
 	close(fd[0]);
 	cmd_path = find_command_path(command[0], envp);
 	if (cmd_path == NULL)
-		ft_error_command();
+		ft_error(127, "Error: command not found");
 	if (execve(cmd_path, command, envp) == -1)
-		ft_error();
+		ft_error(1, "Error");
 }
 
-void	write_to_file(char **command, char *file_path, char **envp, int *fd)
+void	parent_and_write_to_file(char **command, char *file_path,
+	char **envp, int *fd)
 {
 	char	*cmd_path;
 	int		file;
 
 	file = open(file_path, O_WRONLY | O_CREAT | O_TRUNC, 0777);
 	if (file == -1)
-		ft_error();
+		ft_error(1, "Error");
 	dup2(fd[0], STDIN_FILENO);
 	dup2(file, STDOUT_FILENO);
 	close(fd[1]);
 	cmd_path = find_command_path(command[0], envp);
 	if (cmd_path == NULL)
-		ft_error_command();
+		ft_error(127, "Error: command not found");
 	if (execve(cmd_path, command, envp) == -1)
-		ft_error();
+		ft_error(1, "Error");
 }
 
 char	*find_command_path(char *original_command, char **envp)
@@ -97,5 +99,5 @@ char	*find_command_path(char *original_command, char **envp)
 			return (correct_path);
 		i++;
 	}
-	return NULL;
+	return (NULL);
 }
