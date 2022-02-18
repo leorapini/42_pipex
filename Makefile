@@ -6,7 +6,7 @@
 #    By: lpinheir <lpinheir@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/02/02 12:49:14 by lpinheir          #+#    #+#              #
-#    Updated: 2022/02/17 11:40:26 by lpinheir         ###   ########.fr        #
+#    Updated: 2022/02/18 13:17:30 by lpinheir         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ NAME = pipex
 INCLUDES = -I includes
 
 CC = gcc
-CC_FLAGS = -Wall -Werror -Wextra
+CC_FLAGS = -Wall -Werror -Wextra -g
 
 RM_FLAGS = -f
 

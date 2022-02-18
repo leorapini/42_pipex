@@ -6,7 +6,7 @@
 /*   By: lpinheir <lpinheir@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/09 20:04:50 by lpinheir          #+#    #+#             */
-/*   Updated: 2022/02/17 20:07:10 by lpinheir         ###   ########.fr       */
+/*   Updated: 2022/02/18 19:06:38 by lpinheir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,6 @@ static size_t	ft_quotes(char const *s)
 
 static char const	*ft_isc(char const *s, char c, size_t *len_str)
 {
-	int	flag;
-
-	flag = 0;
 	while (*s == c && *s != 0)
 		s++;
 	while (*s != c && *s != 0 && *s != '\'')
@@ -84,7 +81,7 @@ char	**ft_split(char const *s, char c)
 	count = ft_words(s, c);
 	quotes = ft_quotes(s);
 	count = count - quotes;
-	result = malloc(sizeof(char *) * count + 1);
+	result = malloc(sizeof(*result) * (count + 1));
 	if (!result)
 		return (NULL);
 	j = 0;
@@ -92,7 +89,7 @@ char	**ft_split(char const *s, char c)
 	{
 		len_str = 0;
 		s = ft_isc(s, c, &len_str);
-		result[j] = (char *)malloc(sizeof(char) * (len_str + 1));
+		result[j] = (char *)malloc(sizeof(char *) * (len_str + 1));
 		ft_strlcpy(result[j++], s - len_str, len_str + 1);
 	}
 	result[j] = NULL;
