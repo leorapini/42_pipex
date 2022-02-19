@@ -1,4 +1,4 @@
-# 42_pipex
+# pipex
 Why use your Shell's pipe '|' if you can write your own?
 
 ## Goal and Usage
@@ -15,11 +15,7 @@ Both output and behaviour should be the same.
 To install, run:
 ```
 $ git clone https://github.com/leorapini/42_pipex.git pipex
-```
-```
 $ cd pipex
-```
-```
 $ make
 ```
 
